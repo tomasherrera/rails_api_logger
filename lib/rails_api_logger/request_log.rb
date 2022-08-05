@@ -16,7 +16,8 @@ class RequestLog < ActiveRecord::Base
     body = request_body ? request_body.dup.force_encoding("UTF-8") : nil
     pattern = /^Bearer /
     header  = request.session["Authorization"]
-    headers = header.gsub(pattern, '') if header && header.match(pattern) || {}
+    headers_gsub = header.gsub(pattern, '') if header && header.match(pattern) 
+    headers = headers_gsub || {}
     begin
       body = JSON.parse(body) if body.present?
     rescue JSON::ParserError
